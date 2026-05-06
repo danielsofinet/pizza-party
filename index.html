@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizza Party · 16 mai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sky: #2A6BC9;
+      --sky-light: #4A8BE0;
+      --sky-deep: #1F58B0;
+      --cream: #F8F8E0;
+      --orange: #E66E3F;
+      --orange-deep: #C84720;
+      --orange-soft: #FFE5D9;
+      --ink: #0F2A4F;
+    }
+    html, body { background: var(--sky); }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ───── HERO ───── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #4A8BE0 0%, #2A6BC9 55%, #1F58B0 100%);
+      overflow: hidden;
+    }
+    /* fluffy clouds */
+    .clouds {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        radial-gradient(ellipse 220px 70px at 12% 18%, rgba(255,255,255,0.55), transparent 70%),
+        radial-gradient(ellipse 160px 55px at 86% 28%, rgba(255,255,255,0.45), transparent 70%),
+        radial-gradient(ellipse 130px 45px at 30% 62%, rgba(255,255,255,0.35), transparent 70%),
+        radial-gradient(ellipse 180px 60px at 75% 78%, rgba(255,255,255,0.4), transparent 70%);
+    }
+
+    .top-bar {
+      position: relative; z-index: 3;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px clamp(20px, 5vw, 56px);
+      color: var(--cream);
+      font-weight: 600; letter-spacing: 0.18em; font-size: 13px; text-transform: uppercase;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-rows: auto auto auto;
+      align-items: center;
+      justify-items: center;
+      padding: 30px clamp(20px, 5vw, 60px) 80px;
+      gap: 0;
+    }
+
+    .title {
+      font-family: 'Anton', 'Impact', sans-serif;
+      color: var(--cream);
+      font-size: clamp(72px, 16vw, 220px);
+      line-height: 0.86;
+      letter-spacing: 0.015em;
+      text-shadow: 0 6px 32px rgba(15,42,79,0.18);
+      text-align: center;
+    }
+    .title.with-pizza { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 3vw, 40px); flex-wrap: wrap; }
+
+    .pizza {
+      width: clamp(180px, 30vw, 360px);
+      height: clamp(180px, 30vw, 360px);
+      background: radial-gradient(circle at 50% 50%, #F2C16B 0%, #E89B3A 70%, #B86C1F 100%);
+      border-radius: 50%;
+      position: relative;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.28),
+        inset 0 -10px 20px rgba(140,70,15,0.4),
+        inset 0 0 0 6px #B86C1F,
+        inset 0 0 0 12px #F2C16B;
+      animation: spin 30s linear infinite;
+      flex-shrink: 0;
+    }
+    /* pepperoni dots */
+    .pizza::before,
+    .pizza::after {
+      content: ""; position: absolute; inset: 0; border-radius: 50%;
+      background:
+        radial-gradient(circle at 28% 30%, #C0381F 0 7%, transparent 7.5%),
+        radial-gradient(circle at 68% 22%, #C0381F 0 6%, transparent 6.5%),
+        radial-gradient(circle at 80% 55%, #C0381F 0 7%, transparent 7.5%),
+        radial-gradient(circle at 50% 50%, #C0381F 0 7%, transparent 7.5%),
+        radial-gradient(circle at 22% 65%, #C0381F 0 6%, transparent 6.5%),
+        radial-gradient(circle at 50% 80%, #C0381F 0 6.5%, transparent 7%),
+        radial-gradient(circle at 75% 78%, #C0381F 0 5%, transparent 5.5%);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .badge {
+      position: absolute; right: clamp(20px, 6vw, 80px); bottom: clamp(80px, 12vh, 140px);
+      width: clamp(110px, 13vw, 160px); height: clamp(110px, 13vw, 160px);
+      background: var(--cream);
+      color: var(--sky-deep);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; text-align: center;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(16px, 1.6vw, 20px);
+      letter-spacing: 0.06em;
+      transform: rotate(-12deg);
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.25));
+      /* Star/sun shape using clip-path */
+      clip-path: polygon(
+        50% 0%, 60% 12%, 75% 5%, 79% 22%, 95% 25%, 88% 40%, 100% 50%,
+        88% 60%, 95% 75%, 79% 78%, 75% 95%, 60% 88%, 50% 100%, 40% 88%,
+        25% 95%, 21% 78%, 5% 75%, 12% 60%, 0% 50%, 12% 40%, 5% 25%,
+        21% 22%, 25% 5%, 40% 12%
+      );
+      z-index: 3;
+    }
+    .badge span:first-child { font-size: 1.3em; }
+
+    .info-strip {
+      position: absolute; bottom: 30px; left: 0; right: 0; z-index: 3;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 clamp(20px, 5vw, 56px);
+      color: var(--cream);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      gap: 20px;
+    }
+    .checker {
+      flex-shrink: 0;
+      width: 90px; height: 18px;
+      background-image:
+        linear-gradient(45deg, var(--cream) 25%, transparent 25%, transparent 75%, var(--cream) 75%),
+        linear-gradient(45deg, var(--cream) 25%, transparent 25%, transparent 75%, var(--cream) 75%);
+      background-size: 18px 18px;
+      background-position: 0 0, 9px 9px;
+    }
+
+    .info-strip .center {
+      text-align: center;
+      flex: 1;
+    }
+    .info-strip .center .big {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(28px, 3.5vw, 48px);
+      letter-spacing: 0.04em; line-height: 1;
+      display: block; margin-bottom: 4px;
+    }
+
+    /* ───── FRIENDS LIST ───── */
+    .friends {
+      background: var(--cream);
+      padding: clamp(60px, 10vh, 110px) 24px;
+    }
+    .friends-inner { max-width: 760px; margin: 0 auto; }
+    .friends h2 {
+      font-family: 'Anton', sans-serif;
+      color: var(--sky-deep);
+      font-size: clamp(40px, 7vw, 88px);
+      letter-spacing: 0.015em;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 0.95;
+    }
+    .friends p.lede {
+      color: #5A6478;
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 16px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .friend-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(15,42,79,0.06);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      gap: 14px 16px;
+      align-items: center;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+    .friend-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(15,42,79,0.1);
+    }
+
+    .avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 18px;
+      color: white;
+      flex-shrink: 0;
+      grid-row: 1 / 3;
+    }
+
+    .name-and-input {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .name {
+      font-weight: 700; font-size: 18px; color: var(--ink);
+      min-width: 90px;
+    }
+    .input-wrap { flex: 1; min-width: 220px; position: relative; }
+    .input-wrap input {
+      width: 100%;
+      padding: 11px 15px;
+      border: 2px solid #E5E9F0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #F6F8FB;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    .input-wrap input::placeholder { color: #94A3B8; }
+    .input-wrap input:focus {
+      outline: none;
+      border-color: var(--sky);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(42,107,201,0.12);
+    }
+
+    .chips {
+      grid-column: 2;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      min-height: 0;
+    }
+    .chips:empty { display: none; }
+    .chip {
+      background: var(--orange-soft);
+      color: var(--orange-deep);
+      padding: 7px 6px 7px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-flex; align-items: center; gap: 4px;
+      animation: pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .chip button {
+      background: none; border: none; cursor: pointer;
+      color: var(--orange-deep);
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; line-height: 1;
+      opacity: 0.55;
+      transition: opacity 0.15s, background 0.15s;
+    }
+    .chip button:hover {
+      opacity: 1;
+      background: rgba(200,71,32,0.15);
+    }
+
+    /* avatar palette */
+    .avatar.c0 { background: #E66E3F; }
+    .avatar.c1 { background: #6A8BD7; }
+    .avatar.c2 { background: #D14C7A; }
+    .avatar.c3 { background: #4FAE8C; }
+    .avatar.c4 { background: #B36BC9; }
+    .avatar.c5 { background: #D9A23B; }
+
+    /* footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--cream);
+      background: var(--sky);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    /* sync indicator */
+    .sync-dot {
+      position: fixed; bottom: 16px; right: 16px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: rgba(15, 42, 79, 0.9);
+      color: var(--cream);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      transition: background 0.2s;
+    }
+    .sync-dot .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #4FAE8C;
+      box-shadow: 0 0 0 0 rgba(79,174,140,0.7);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .sync-dot.busy .dot { background: #F2C16B; animation-duration: 0.8s; }
+    .sync-dot.error { background: #C84720; }
+    .sync-dot.error .dot { background: var(--cream); animation: none; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(79,174,140,0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(79,174,140,0); }
+    }
+
+    @media (max-width: 600px) {
+      .badge { display: none; }
+      .info-strip .checker { display: none; }
+      .name-and-input { flex-direction: column; align-items: flex-start; }
+      .name { min-width: 0; }
+      .input-wrap { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="clouds"></div>
+
+    <div class="top-bar">
+      <span>Pizza Club</span>
+      <span>Authentic Friendship</span>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="title">ULTIMATE</h1>
+      <h1 class="title with-pizza">
+        <span>PIZZA</span>
+        <span class="pizza" aria-hidden="true"></span>
+      </h1>
+      <h1 class="title">PARTY</h1>
+    </div>
+
+    <div class="badge" aria-hidden="true">
+      <span>16</span>
+      <span>MAI</span>
+    </div>
+
+    <div class="info-strip">
+      <div class="checker"></div>
+      <div class="center">
+        <span class="big">SAMEDI 16 MAI</span>
+        <span>chez Daniel · 20h</span>
+      </div>
+      <div class="checker"></div>
+    </div>
+  </section>
+
+  <section class="friends">
+    <div class="friends-inner">
+      <h2>QUI APPORTE QUOI ?</h2>
+      <p class="lede">Tape ce que tu amènes et appuie sur Entrée. Tu peux en ajouter plusieurs.</p>
+      <div id="list"></div>
+    </div>
+  </section>
+
+  <footer>
+    Made with 🍕 · localStorage only · refresh-safe
+  </footer>
+
+  <script>
+    // ───── jsonbin shared storage ─────
+    const BIN_ID = '69faecc836566621a82ed0d7';
+    const MASTER_KEY = '$2a$10$ARmBoVk80EMJiDfjnAcPyemtrmtyg6/54tiV7xbSc3DEI5o1H8b7.';
+    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+    const POLL_MS = 3000;
+
+    const PEOPLE = ['Clément', 'Mathieu', 'Roxane', 'Jérémy', 'David', 'Joris'];
+    const list = document.getElementById('list');
+    const escapeHtml = (s) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    let state = {};
+    let inflight = 0; // counter so we can render a tiny sync indicator
+    const cards = new Map(); // name → { input, chipsEl }
+
+    async function fetchState() {
+      const res = await fetch(`${BIN_URL}/latest`, {
+        cache: 'no-store',
+        headers: { 'X-Master-Key': MASTER_KEY, 'X-Bin-Meta': 'false' },
+      });
+      if (!res.ok) throw new Error(`fetch ${res.status}`);
+      // X-Bin-Meta: false → returns the record directly
+      return await res.json();
+    }
+
+    async function pushState(next) {
+      const res = await fetch(BIN_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': MASTER_KEY,
+          'X-Bin-Versioning': 'false',
+        },
+        body: JSON.stringify(next),
+      });
+      if (!res.ok) throw new Error(`push ${res.status}`);
+    }
+
+    function buildCard(name, i) {
+      const card = document.createElement('div');
+      card.className = 'friend-card';
+      card.innerHTML = `
+        <div class="avatar c${i}">${name[0]}</div>
+        <div class="name-and-input">
+          <div class="name">${name}</div>
+          <div class="input-wrap">
+            <input type="text" placeholder="J'amène..." aria-label="Ce que ${name} apporte" autocomplete="off" />
+          </div>
+        </div>
+        <div class="chips" data-chips></div>
+      `;
+      const input = card.querySelector('input');
+      const chipsEl = card.querySelector('[data-chips]');
+
+      input.addEventListener('keydown', async (e) => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        let value = input.value.trim();
+        if (!value) return;
+        value = value.replace(/^j['' ]?am[èe]ne\s*:?\s*/i, '').trim();
+        if (!value) return;
+        input.value = '';
+
+        // Optimistic: show chip immediately. Reconcile when poll returns.
+        if (!state[name]) state[name] = [];
+        state[name].push(value);
+        renderChips(name);
+
+        try {
+          inflight++; updateSync();
+          const latest = await fetchState();
+          latest[name] = (latest[name] || []).slice();
+          latest[name].push(value);
+          await pushState(latest);
+          state = latest;
+        } catch (err) {
+          console.error(err);
+          // roll back the optimistic chip
+          state[name] = (state[name] || []).filter((x) => x !== value);
+          renderChips(name);
+          flashError();
+        } finally {
+          inflight--; updateSync();
+        }
+      });
+
+      cards.set(name, { input, chipsEl });
+      return card;
+    }
+
+    function renderChips(name) {
+      const entry = cards.get(name);
+      if (!entry) return;
+      const items = state[name] || [];
+      // Diff: only re-render if changed (avoids killing the pop animation on every poll).
+      const existing = Array.from(entry.chipsEl.children).map((el) => el.dataset.value);
+      const same = existing.length === items.length && existing.every((v, i) => v === items[i]);
+      if (same) return;
+
+      entry.chipsEl.innerHTML = '';
+      items.forEach((text) => entry.chipsEl.appendChild(makeChip(name, text)));
+    }
+
+    function renderAll() {
+      PEOPLE.forEach((name) => renderChips(name));
+    }
+
+    function makeChip(name, text) {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.dataset.value = text;
+      chip.innerHTML = `<span>${escapeHtml(text)}</span><button type="button" aria-label="Retirer ${escapeHtml(text)}">×</button>`;
+      chip.querySelector('button').addEventListener('click', async () => {
+        // Optimistic remove
+        const before = state[name] || [];
+        state[name] = before.filter((x) => x !== text);
+        renderChips(name);
+
+        try {
+          inflight++; updateSync();
+          const latest = await fetchState();
+          latest[name] = (latest[name] || []).filter((x) => x !== text);
+          await pushState(latest);
+          state = latest;
+        } catch (err) {
+          console.error(err);
+          state[name] = before; // roll back
+          renderChips(name);
+          flashError();
+        } finally {
+          inflight--; updateSync();
+        }
+      });
+      return chip;
+    }
+
+    // ───── tiny sync indicator ─────
+    const syncDot = document.createElement('div');
+    syncDot.className = 'sync-dot';
+    syncDot.innerHTML = `<span class="dot"></span><span class="label">en ligne</span>`;
+    document.body.appendChild(syncDot);
+    function updateSync(error) {
+      if (error) { syncDot.classList.add('error'); return; }
+      syncDot.classList.toggle('busy', inflight > 0);
+      syncDot.classList.remove('error');
+    }
+    function flashError() {
+      updateSync(true);
+      setTimeout(() => updateSync(false), 1500);
+    }
+
+    // ───── boot ─────
+    PEOPLE.forEach((name, i) => list.appendChild(buildCard(name, i)));
+
+    (async () => {
+      try {
+        state = await fetchState();
+        renderAll();
+      } catch (err) {
+        console.error(err);
+        flashError();
+      }
+    })();
+
+    // Poll for other users' changes
+    setInterval(async () => {
+      if (document.hidden) return;
+      try {
+        const next = await fetchState();
+        // Don't clobber a row whose input is currently focused with stale data
+        // (we already have it locally and the server will catch up).
+        const focused = document.activeElement?.closest('.friend-card');
+        const focusedName = focused?.querySelector('.name')?.textContent?.trim();
+        for (const name of PEOPLE) {
+          if (name === focusedName) continue;
+          state[name] = next[name] || [];
+        }
+        renderAll();
+      } catch (err) {
+        console.error(err);
+      }
+    }, POLL_MS);
+  </script>
+</body>
+</html>
