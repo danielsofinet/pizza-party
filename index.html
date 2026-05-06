@@ -570,18 +570,23 @@
       }
     })();
 
-    // Poll for other users' changes
+    // Poll for other users' changes.
+    // If a local write is in flight, skip — the server may not have the chip
+    // yet and we'd briefly wipe the optimistic UI before the write lands.
     setInterval(async () => {
       if (document.hidden) return;
+      if (inflight > 0) return;
       try {
         const next = await fetchState();
-        // Don't clobber a row whose input is currently focused with stale data
-        // (we already have it locally and the server will catch up).
-        const focused = document.activeElement?.closest('.friend-card');
-        const focusedName = focused?.querySelector('.name')?.textContent?.trim();
+        // Merge by union (never remove a chip the user just typed unless the
+        // server confirms it gone). For each person, take the longer list.
         for (const name of PEOPLE) {
-          if (name === focusedName) continue;
-          state[name] = next[name] || [];
+          const local = state[name] || [];
+          const remote = next[name] || [];
+          // Union by value, preserving remote order then appending local-only items.
+          const merged = remote.slice();
+          for (const v of local) if (!merged.includes(v)) merged.push(v);
+          state[name] = merged;
         }
         renderAll();
       } catch (err) {
