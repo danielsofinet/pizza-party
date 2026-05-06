@@ -215,7 +215,26 @@
     .name {
       font-weight: 700; font-size: 18px; color: var(--ink);
       min-width: 90px;
+      position: relative;
+      display: inline-block;
     }
+    /* Hand-drawn pencil scratch over a crossed-out name */
+    .name .scratch {
+      position: absolute;
+      left: -4px; right: -4px;
+      top: 50%;
+      width: calc(100% + 8px); height: 24px;
+      transform: translateY(-50%) rotate(-2deg);
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .friend-card.crossed-out { opacity: 0.55; }
+    .friend-card.crossed-out .input-wrap input {
+      background: #EEF1F5;
+      color: #94A3B8;
+      cursor: not-allowed;
+    }
+    .friend-card.crossed-out .input-wrap input::placeholder { color: #B0BAC9; }
     .input-wrap { flex: 1; min-width: 220px; position: relative; }
     .input-wrap input {
       width: 100%;
@@ -411,15 +430,29 @@
       if (!res.ok) throw new Error(`push ${res.status}`);
     }
 
+    const CROSSED_OUT = new Set(['Joris']);
+
     function buildCard(name, i) {
+      const isCrossed = CROSSED_OUT.has(name);
+      const scratch = isCrossed
+        ? `<svg class="scratch" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
+             <path d="M2 14 Q12 4 22 13 T44 11 T66 14 T98 9"
+                   stroke="#475569" stroke-width="2.6" stroke-linecap="round"
+                   fill="none" stroke-linejoin="round" />
+             <path d="M4 17 Q14 22 28 15 T54 17 T78 13 T96 16"
+                   stroke="#475569" stroke-width="1.8" stroke-linecap="round"
+                   fill="none" stroke-linejoin="round" opacity="0.55" />
+           </svg>`
+        : '';
+
       const card = document.createElement('div');
-      card.className = 'friend-card';
+      card.className = 'friend-card' + (isCrossed ? ' crossed-out' : '');
       card.innerHTML = `
         <div class="avatar c${i}">${name[0]}</div>
         <div class="name-and-input">
-          <div class="name">${name}</div>
+          <div class="name">${name}${scratch}</div>
           <div class="input-wrap">
-            <input type="text" placeholder="J'amène..." aria-label="Ce que ${name} apporte" autocomplete="off" />
+            <input type="text" placeholder="${isCrossed ? 'Pas là' : "J'amène..."}" aria-label="Ce que ${name} apporte" autocomplete="off" ${isCrossed ? 'disabled' : ''} />
           </div>
         </div>
         <div class="chips" data-chips></div>
